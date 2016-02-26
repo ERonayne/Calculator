@@ -13,20 +13,53 @@ public class Calculator {
         history = new Stack<String>();
     }
 
-    public int add(List<Integer> integers) {
-        return 0;
+    public Integer add(List<Integer> integers) {
+        Integer result = null;
+        if(!integers.isEmpty()) {
+            result = integers.get(0);;
+            for (int i=1; i<integers.size(); i++) {
+                result += integers.get(i);
+            }
+        }
+        return result;
     }
 
-    public int subtract(List<Integer> integers) {
-        return 0;
+    public Integer subtract(List<Integer> integers) {
+        Integer result = null;
+        if(!integers.isEmpty()) {
+            result = integers.get(0);
+            for (int i=1; i<integers.size(); i++) {
+                result -= integers.get(i);
+            }
+        }
+        return result;
     }
 
-    public int multiply(List<Integer> integers) {
-        return 0;
+    public Integer multiply(List<Integer> integers) {
+        Integer result = null;
+        if(!integers.isEmpty()) {
+            result = integers.get(0);;
+            for (int i=1; i<integers.size(); i++) {
+                result *= integers.get(i);
+            }
+        }
+        return result;
     }
 
-    public int divide(List<Integer> integers) {
-        return 0;
+    public Double divide(List<Integer> integers) {
+        Double result = null;
+        if(!integers.isEmpty()) {
+            result = integers.get(0).doubleValue();
+            for (int i=1; i<integers.size(); i++) {
+                if(integers.get(i) == 0) {
+                    result = Double.NaN;
+                    break;
+                } else {
+                    result /= integers.get(i).doubleValue();
+                }
+            }
+        }
+        return result;
     }
 
     public Stack<String> getHistory() {
