@@ -18,12 +18,8 @@ Maven 3.3.9
 
 ## Building the Project
 
-This project is build using Maven. To build the project run:
-
-    `mvn package`
-
-To run tests:
+This project is build using Maven. To both build and run the tests use:
 
     `mvn test`
 
-The console will report whether or not the tests pass.
+The console will report whether or not the build and tests pass.
