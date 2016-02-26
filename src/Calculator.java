@@ -67,16 +67,8 @@ public class Calculator {
 
     public Double root(List<Integer> integers) {
         Double result = null;
-        if(!integers.isEmpty()) {
-            result = integers.get(0).doubleValue();
-            for (int i=1; i<integers.size(); i++) {
-                if(integers.get(i) == 0) {
-                    result = Double.NaN;
-                    break;
-                } else {
-                    result /= integers.get(i).doubleValue();
-                }
-            }
+        if(integers.size() == 1) {
+            result = Math.sqrt(integers.get(0));
         }
         return result;
     }
@@ -86,11 +78,25 @@ public class Calculator {
     }
 
     public void printHistory(PrintStream stream) {
-        Stack<String> tempHistory = (Stack<String>) this.history.clone();
+        Stack<String> tempHistory = cloneHistory();
         int index = 1;
         while(!tempHistory.isEmpty()) {
             stream.println(index++ + ":  " + tempHistory.pop());
         }
+    }
+
+    public String getHistoryValue(int depth) {
+        Stack<String> tempHistory = cloneHistory();
+        String retVal = "";
+        for(int i=depth; i>0; i--) {
+            String[] tokens = tempHistory.pop().split(" ");
+            retVal = tokens[tokens.length-1];
+        }
+        return retVal;
+    }
+
+    private Stack<String> cloneHistory() {
+        return (Stack<String>) this.history.clone();
     }
 
     public void clearHistory() {

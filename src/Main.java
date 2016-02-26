@@ -21,7 +21,7 @@ public class Main {
 
             //convert input into integers
             List<Integer> integers = new ArrayList<Integer>();
-            if(!convertStringsToInt(tokens, integers)) {
+            if(!convertStringsToInt(calc, tokens, integers)) {
                 System.out.println("Values must be integers!");
                 continue;
             }
@@ -49,9 +49,13 @@ public class Main {
                     printResult(value);
                     break;
                 case "root":
-                    value = calc.root(integers);
-                    addHistory(command, integers, calc, value);
-                    printResult(value);
+                    if (!integers.isEmpty() && integers.size() != 1) {
+                        System.out.println("Square root can only be used on 1 integer!");
+                    } else {
+                        value = calc.root(integers);
+                        addHistory(command, integers, calc, value);
+                        printResult(value);
+                    }
                     break;
                 case "his":
                     calc.printHistory(System.out);
@@ -72,9 +76,6 @@ public class Main {
     private static void printResult(Number value) {
         if (value != null) {
             String response = value.toString();
-            if(value.doubleValue() == Double.NaN) {
-                response = "Divide by 0 error.";
-            }
             System.out.println(response);
         }
     }
@@ -83,10 +84,15 @@ public class Main {
         if (result != null) {
             command = convertCommandToOperator(command);
             String history = "";
-            for (int i = 0; i < integers.size(); i++) {
-                history += integers.get(i) + " ";
-                if (i != integers.size() - 1) {
-                    history += command + " ";
+            String rootUnicode = "\u221A";
+            if (command.equals(rootUnicode)) {
+                history = command + integers.get(0) + " ";
+            } else {
+                for (int i = 0; i < integers.size(); i++) {
+                    history += integers.get(i) + " ";
+                    if (i != integers.size() - 1) {
+                        history += command + " ";
+                    }
                 }
             }
             history += "= " + result;
@@ -109,15 +115,25 @@ public class Main {
             case "div":
                 retVal = "/";
                 break;
+            case "root":
+                retVal = "\u221A";
+                break;
         }
         return retVal;
     }
 
-    private static boolean convertStringsToInt(String[] tokens, List<Integer> integers) {
+    private static boolean convertStringsToInt(Calculator calc, String[] tokens, List<Integer> integers) {
         boolean retVal = true;
         for (int i = 1; i < tokens.length; i++) {
+            String token = tokens[i];
             try {
-                int integer = Integer.parseInt(tokens[i]);
+                if(token.startsWith("!")) {
+                    int depth = Integer.parseInt(token.substring(1));
+                    if (depth > 0) {
+                        token = calc.getHistoryValue(depth);
+                    }
+                }
+                int integer = Integer.parseInt(token);
                 integers.add(integer);
             } catch (NumberFormatException e) {
                 retVal = false;
