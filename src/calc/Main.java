@@ -78,6 +78,9 @@ public class Main {
     private static void printResult(Number value) {
         if (value != null) {
             String response = value.toString();
+            if (Double.isNaN(value.doubleValue())) {
+                response = "Divide by 0 error.";
+            }
             System.out.println(response);
         }
     }

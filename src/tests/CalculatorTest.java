@@ -48,12 +48,29 @@ public class CalculatorTest {
 
     @org.junit.Test
     public void testMultiply() throws Exception {
+        List<Integer> integers = new ArrayList<Integer>();
+        integers.add(2);
+        integers.add(3);
+        integers.add(4);
 
+        Assert.assertEquals(24, calc.multiply(integers).intValue());
     }
 
     @org.junit.Test
     public void testDivide() throws Exception {
+        List<Integer> integers = new ArrayList<Integer>();
+        integers.add(24);
+        integers.add(2);
+        integers.add(6);
 
+        Assert.assertEquals(2.0, calc.divide(integers).intValue(), 0.001);
+
+        integers.clear();
+        integers.add(9);
+        integers.add(0);
+        integers.add(3);
+
+        Assert.assertEquals(Double.NaN, calc.divide(integers).doubleValue(), 0.001);
     }
 
     @org.junit.Test
