@@ -9,6 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
+        Calculator calc = new Calculator();
         Boolean exit = false;
         while(!exit) {
             System.out.println("Enter a command, \"exit\" to quit: ");
@@ -21,51 +22,88 @@ public class Main {
             //convert input into integers
             List<Integer> integers = new ArrayList<Integer>();
             if(!convertStringsToInt(tokens, integers)) {
+                System.out.println("Values must be integers!");
                 continue;
             }
 
-            Calculator calc = new Calculator();
             String result = "";
             switch (command) {
                 case "add":
                     result = "" + calc.add(integers);
+                    addHistory(command, integers, calc, result);
                     System.out.println(result);
                     break;
                 case "sub":
                     result = "" + calc.subtract(integers);
+                    addHistory(command, integers, calc, result);
                     System.out.println(result);
                     break;
                 case "mul":
                     result = "" + calc.multiply(integers);
+                    addHistory(command, integers, calc, result);
                     System.out.println(result);
                     break;
                 case "div":
                     result = "" + calc.divide(integers);
+                    addHistory(command, integers, calc, result);
                     System.out.println(result);
                     break;
                 case "his":
-                    Stack<String> hist = calc.getHistory();
-                    System.out.println(result);
+                    calc.printHistory(System.out);
                     break;
                 case "exit":
                     exit = true;
                     break;
                 default:
-                    System.err.println("unknown format!");
+                    System.out.println("Invalid Command! Valid commands are \"add\", " +
+                            "\"sub\", \"mul\", \"div\", \"his\", \"clear\", and \"root\".\n");
             }
         }
     }
 
+    private static void addHistory(String command, List<Integer> integers, Calculator calc, String result) {
+        command = convertCommandToOperator(command);
+        String history = "";
+        for(int i=0; i<integers.size(); i++) {
+            history += integers.get(i) + " ";
+            if(i != integers.size()-1) {
+                history += command + " ";
+            }
+        }
+        history += "= " + result;
+        calc.addHistory(history);
+    }
+
+    private static String convertCommandToOperator(String command) {
+        String retVal = command;
+        switch (command) {
+            case "add":
+                retVal = "+";
+                break;
+            case "sub":
+                retVal = "-";
+                break;
+            case "mul":
+                retVal = "*";
+                break;
+            case "div":
+                retVal = "/";
+                break;
+        }
+        return retVal;
+    }
+
     private static boolean convertStringsToInt(String[] tokens, List<Integer> integers) {
+        boolean retVal = true;
         for (int i = 1; i < tokens.length; i++) {
             try {
                 int integer = Integer.parseInt(tokens[i]);
                 integers.add(integer);
             } catch (NumberFormatException e) {
-                System.err.println("Invalid format!");
-                return false;
+                retVal = false;
+                break;
             }
         }
-        return true;
+        return retVal;
     }
 }

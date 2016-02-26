@@ -1,3 +1,6 @@
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -62,8 +65,20 @@ public class Calculator {
         return result;
     }
 
-    public Stack<String> getHistory() {
-        return this.history;
+    public void addHistory(String history) {
+        this.history.push(history);
+    }
+
+    public void printHistory(PrintStream stream) {
+        Stack<String> tempHistory = (Stack<String>) this.history.clone();
+        int index = 1;
+        while(!tempHistory.isEmpty()) {
+            stream.println(index++ + ":  " + tempHistory.pop());
+        }
+    }
+
+    public void clearHistory() {
+        this.history.clear();
     }
 
 }
