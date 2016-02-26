@@ -1,4 +1,4 @@
-# Project Description?
+# Project Description
 
 This project is a simple calculator application that runs through the console.
 
@@ -13,6 +13,7 @@ Evan Ronayne
 ## Dependencies
 
 JUnit4
+
 Maven 3.3.9
 
 ## Building the Project
