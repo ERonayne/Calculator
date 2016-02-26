@@ -75,26 +75,50 @@ public class CalculatorTest {
 
     @org.junit.Test
     public void testRoot() throws Exception {
+        List<Integer> integers = new ArrayList<Integer>();
+        integers.add(25);
 
+        Assert.assertEquals(5.0, calc.root(integers).doubleValue(), 0.001);
     }
 
     @org.junit.Test
     public void testAddHistory() throws Exception {
+        List<Integer> integers = new ArrayList<Integer>();
+        integers.add(2);
+        integers.add(4);
+        calc.addHistory("mul", integers, 8);
 
+        Assert.assertEquals("2 * 4 = 8", calc.getHistory().peek());
     }
 
     @org.junit.Test
     public void testPrintHistory() throws Exception {
+        List<Integer> integers = new ArrayList<Integer>();
+        integers.add(2);
+        integers.add(4);
+        calc.addHistory("mul", integers, 8);
 
+        Assert.assertEquals("1:  2 * 4 = 8", calc.printHistory(System.out));
     }
 
     @org.junit.Test
     public void testGetHistoryValue() throws Exception {
+        List<Integer> integers = new ArrayList<Integer>();
+        integers.add(2);
+        integers.add(4);
+        calc.addHistory("mul", integers, 8);
 
+        Assert.assertEquals("8", calc.getHistoryValue(1));
     }
 
     @org.junit.Test
     public void testClearHistory() throws Exception {
+        List<Integer> integers = new ArrayList<Integer>();
+        integers.add(2);
+        integers.add(4);
+        calc.addHistory("mul", integers, 8);
+        calc.clearHistory();
 
+        Assert.assertTrue(calc.getHistory().isEmpty());
     }
 }

@@ -32,22 +32,22 @@ public class Main {
             switch (command) {
                 case "add":
                     value = calc.add(integers);
-                    addHistory(command, integers, calc, value);
+                    calc.addHistory(command, integers, value);
                     printResult(value);
                     break;
                 case "sub":
                     value = calc.subtract(integers);
-                    addHistory(command, integers, calc, value);
+                    calc.addHistory(command, integers, value);
                     printResult(value);
                     break;
                 case "mul":
                     value = calc.multiply(integers);
-                    addHistory(command, integers, calc, value);
+                    calc.addHistory(command, integers, value);
                     printResult(value);
                     break;
                 case "div":
                     value = calc.divide(integers);
-                    addHistory(command, integers, calc, value);
+                    calc.addHistory(command, integers, value);
                     printResult(value);
                     break;
                 case "root":
@@ -55,7 +55,7 @@ public class Main {
                         System.out.println("Square root can only be used on 1 integer!");
                     } else {
                         value = calc.root(integers);
-                        addHistory(command, integers, calc, value);
+                        calc.addHistory(command, integers, value);
                         printResult(value);
                     }
                     break;
@@ -83,48 +83,6 @@ public class Main {
             }
             System.out.println(response);
         }
-    }
-
-    private static void addHistory(String command, List<Integer> integers, Calculator calc, Number result) {
-        if (result != null) {
-            command = convertCommandToOperator(command);
-            String history = "";
-            String rootUnicode = "\u221A";
-            if (command.equals(rootUnicode)) {
-                history = command + integers.get(0) + " ";
-            } else {
-                for (int i = 0; i < integers.size(); i++) {
-                    history += integers.get(i) + " ";
-                    if (i != integers.size() - 1) {
-                        history += command + " ";
-                    }
-                }
-            }
-            history += "= " + result;
-            calc.addHistory(history);
-        }
-    }
-
-    private static String convertCommandToOperator(String command) {
-        String retVal = command;
-        switch (command) {
-            case "add":
-                retVal = "+";
-                break;
-            case "sub":
-                retVal = "-";
-                break;
-            case "mul":
-                retVal = "*";
-                break;
-            case "div":
-                retVal = "/";
-                break;
-            case "root":
-                retVal = "\u221A";
-                break;
-        }
-        return retVal;
     }
 
     private static boolean convertStringsToInt(Calculator calc, String[] tokens, List<Integer> integers) {

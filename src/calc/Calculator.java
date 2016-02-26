@@ -75,16 +75,62 @@ public class Calculator {
         return result;
     }
 
-    public void addHistory(String history) {
-        this.history.push(history);
+    public void addHistory(String command, List<Integer> integers, Number result) {
+        if (result != null) {
+            command = convertCommandToOperator(command);
+            String history = "";
+            String rootUnicode = "\u221A";
+            if (command.equals(rootUnicode)) {
+                history = command + integers.get(0) + " ";
+            } else {
+                for (int i = 0; i < integers.size(); i++) {
+                    history += integers.get(i) + " ";
+                    if (i != integers.size() - 1) {
+                        history += command + " ";
+                    }
+                }
+            }
+            history += "= " + result;
+            this.history.push(history);
+        }
+
     }
 
-    public void printHistory(PrintStream stream) {
+    private static String convertCommandToOperator(String command) {
+        String retVal = command;
+        switch (command) {
+            case "add":
+                retVal = "+";
+                break;
+            case "sub":
+                retVal = "-";
+                break;
+            case "mul":
+                retVal = "*";
+                break;
+            case "div":
+                retVal = "/";
+                break;
+            case "root":
+                retVal = "\u221A";
+                break;
+        }
+        return retVal;
+    }
+
+    public String printHistory(PrintStream stream) {
         Stack<String> tempHistory = cloneHistory();
         int index = 1;
+        String fullHistory = "";
         while(!tempHistory.isEmpty()) {
-            stream.println(index++ + ":  " + tempHistory.pop());
+            fullHistory = index++ + ":  " + tempHistory.pop();
+            stream.println(fullHistory);
         }
+        return fullHistory;
+    }
+
+    public Stack<String> getHistory() {
+        return this.history;
     }
 
     public String getHistoryValue(int depth) {
