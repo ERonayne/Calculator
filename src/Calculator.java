@@ -65,6 +65,22 @@ public class Calculator {
         return result;
     }
 
+    public Double root(List<Integer> integers) {
+        Double result = null;
+        if(!integers.isEmpty()) {
+            result = integers.get(0).doubleValue();
+            for (int i=1; i<integers.size(); i++) {
+                if(integers.get(i) == 0) {
+                    result = Double.NaN;
+                    break;
+                } else {
+                    result /= integers.get(i).doubleValue();
+                }
+            }
+        }
+        return result;
+    }
+
     public void addHistory(String history) {
         this.history.push(history);
     }

@@ -26,30 +26,38 @@ public class Main {
                 continue;
             }
 
-            String result = "";
+            Number value;
             switch (command) {
                 case "add":
-                    result = "" + calc.add(integers);
-                    addHistory(command, integers, calc, result);
-                    System.out.println(result);
+                    value = calc.add(integers);
+                    addHistory(command, integers, calc, value);
+                    printResult(value);
                     break;
                 case "sub":
-                    result = "" + calc.subtract(integers);
-                    addHistory(command, integers, calc, result);
-                    System.out.println(result);
+                    value = calc.subtract(integers);
+                    addHistory(command, integers, calc, value);
+                    printResult(value);
                     break;
                 case "mul":
-                    result = "" + calc.multiply(integers);
-                    addHistory(command, integers, calc, result);
-                    System.out.println(result);
+                    value = calc.multiply(integers);
+                    addHistory(command, integers, calc, value);
+                    printResult(value);
                     break;
                 case "div":
-                    result = "" + calc.divide(integers);
-                    addHistory(command, integers, calc, result);
-                    System.out.println(result);
+                    value = calc.divide(integers);
+                    addHistory(command, integers, calc, value);
+                    printResult(value);
+                    break;
+                case "root":
+                    value = calc.root(integers);
+                    addHistory(command, integers, calc, value);
+                    printResult(value);
                     break;
                 case "his":
                     calc.printHistory(System.out);
+                    break;
+                case "clear":
+                    calc.clearHistory();
                     break;
                 case "exit":
                     exit = true;
@@ -61,17 +69,29 @@ public class Main {
         }
     }
 
-    private static void addHistory(String command, List<Integer> integers, Calculator calc, String result) {
-        command = convertCommandToOperator(command);
-        String history = "";
-        for(int i=0; i<integers.size(); i++) {
-            history += integers.get(i) + " ";
-            if(i != integers.size()-1) {
-                history += command + " ";
+    private static void printResult(Number value) {
+        if (value != null) {
+            String response = value.toString();
+            if(value.doubleValue() == Double.NaN) {
+                response = "Divide by 0 error.";
             }
+            System.out.println(response);
         }
-        history += "= " + result;
-        calc.addHistory(history);
+    }
+
+    private static void addHistory(String command, List<Integer> integers, Calculator calc, Number result) {
+        if (result != null) {
+            command = convertCommandToOperator(command);
+            String history = "";
+            for (int i = 0; i < integers.size(); i++) {
+                history += integers.get(i) + " ";
+                if (i != integers.size() - 1) {
+                    history += command + " ";
+                }
+            }
+            history += "= " + result;
+            calc.addHistory(history);
+        }
     }
 
     private static String convertCommandToOperator(String command) {
