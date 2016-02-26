@@ -123,9 +123,9 @@ public class Calculator {
         int index = 1;
         String fullHistory = "";
         while(!tempHistory.isEmpty()) {
-            fullHistory = index++ + ":  " + tempHistory.pop();
-            stream.println(fullHistory);
+            fullHistory += index++ + ":  " + tempHistory.pop() + "\n";
         }
+        stream.print(fullHistory);
         return fullHistory;
     }
 
@@ -135,10 +135,14 @@ public class Calculator {
 
     public String getHistoryValue(int depth) {
         Stack<String> tempHistory = cloneHistory();
-        String retVal = "";
-        for(int i=depth; i>0; i--) {
-            String[] tokens = tempHistory.pop().split(" ");
-            retVal = tokens[tokens.length-1];
+        String retVal = null;
+        if (depth <= tempHistory.size()) {
+            for (int i = depth; i > 0; i--) {
+                if (!tempHistory.isEmpty()) {
+                    String[] tokens = tempHistory.pop().split(" ");
+                    retVal = tokens[tokens.length - 1];
+                }
+            }
         }
         return retVal;
     }

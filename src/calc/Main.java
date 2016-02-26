@@ -96,8 +96,13 @@ public class Main {
                         token = calc.getHistoryValue(depth);
                     }
                 }
-                int integer = Integer.parseInt(token);
-                integers.add(integer);
+                if (token != null) {
+                    int integer = Integer.parseInt(token);
+                    integers.add(integer);
+                } else {
+                    retVal = false;
+                    break;
+                }
             } catch (NumberFormatException e) {
                 retVal = false;
                 break;

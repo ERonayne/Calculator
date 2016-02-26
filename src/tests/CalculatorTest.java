@@ -98,7 +98,12 @@ public class CalculatorTest {
         integers.add(4);
         calc.addHistory("mul", integers, 8);
 
-        Assert.assertEquals("1:  2 * 4 = 8", calc.printHistory(System.out));
+        integers.clear();
+        integers.add(9);
+        integers.add(3);
+        calc.addHistory("div", integers, 3);
+
+        Assert.assertEquals("1:  9 / 3 = 3\n2:  2 * 4 = 8\n", calc.printHistory(System.out));
     }
 
     @org.junit.Test
@@ -108,7 +113,13 @@ public class CalculatorTest {
         integers.add(4);
         calc.addHistory("mul", integers, 8);
 
-        Assert.assertEquals("8", calc.getHistoryValue(1));
+        integers.clear();
+        integers.add(9);
+        integers.add(3);
+        calc.addHistory("div", integers, 3);
+
+        Assert.assertEquals("3", calc.getHistoryValue(1));
+        Assert.assertEquals("8", calc.getHistoryValue(2));
     }
 
     @org.junit.Test
@@ -117,8 +128,32 @@ public class CalculatorTest {
         integers.add(2);
         integers.add(4);
         calc.addHistory("mul", integers, 8);
-        calc.clearHistory();
 
+        integers.clear();
+        integers.add(9);
+        integers.add(3);
+        calc.addHistory("div", integers, 3);
+
+        calc.clearHistory();
         Assert.assertTrue(calc.getHistory().isEmpty());
+    }
+
+    @org.junit.Test
+    public void testHistoryUsage() throws Exception {
+        List<Integer> integers = new ArrayList<Integer>();
+        integers.add(2);
+        integers.add(4);
+        calc.addHistory("mul", integers, 8);
+
+        integers.clear();
+        integers.add(9);
+        integers.add(3);
+        calc.addHistory("div", integers, 3);
+
+        integers.clear();
+        integers.add(Integer.parseInt(calc.getHistoryValue(2)));
+        integers.add(3);
+
+        Assert.assertEquals(11, calc.add(integers).intValue());
     }
 }
