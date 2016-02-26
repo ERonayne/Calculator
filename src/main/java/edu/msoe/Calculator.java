@@ -16,6 +16,7 @@ public class Calculator {
 
     public Calculator() {
         history = new Stack<String>();
+		fail the build
     }
 
     public Integer add(List<Integer> integers) {
